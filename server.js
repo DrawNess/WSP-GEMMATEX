@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 const {
-  WEBHOOK_VERIFY_TOKEN,
+  VERIFY_TOKEN,
   API_TOKEN,
   BUSINESS_PHONE,
   API_VERSION,
@@ -86,7 +86,7 @@ app.get("/webhook", (req, res) => {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  if (mode === "subscribe" && token === WEBHOOK_VERIFY_TOKEN) {
+  if (mode === "subscribe" && token === VERIFY_TOKEN) {
 
     console.log("Webhook verificado correctamente");
 
