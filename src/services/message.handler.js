@@ -4,17 +4,17 @@ import openAiService from './openAiService.js'; */
 
 class MessageHandler {
 
-  async handleIncomingMessage(message) {
+  async handleIncomingMessage(message, senderInfo) {
+    if (message?.type !== 'text') return;
     const incomingMessage = message.text.body.toLowerCase().trim();
 
-    if(this.isGreeting(incomingMessage)){
+    if (this.isGreeting(incomingMessage)) {
       await this.sendWelcomeMessage(message.from, message.id);
-      await this.sendWelcomeMenu(message.from);
     } else {
       const response = `Echo: ${message.text.body}`;
       await whatsappService.sendMessage(message.from, response, message.id);
     }
-      await whatsappService.markAsRead(message.id);
+    await whatsappService.markAsRead(message.id);
   }
 
   isGreeting(message) {
@@ -27,7 +27,7 @@ class MessageHandler {
   }
 
   async sendWelcomeMessage(to, messageId) {
-    const welcomeMessage = `Hola, Bienvenido a MEDPET, Tu tienda de mascotas en línea. ¿En qué puedo ayudarte hoy?`;
+    const welcomeMessage = `Hola, Bienvenido a GEMMATEX,` + `¿En qué puedo ayudarte hoy?`;
     await whatsappService.sendMessage(to, welcomeMessage, messageId);
   }
 }
