@@ -26,9 +26,8 @@ class MessageHandler {
     return senderInfo.profile?.name || senderInfo.wa_id;
   }
 
-  async sendWelcomeMessage(to, messageId, senderInfo) {
-    const name = this.getSenderName(senderInfo);
-    const welcomeMessage = `Hola ${name}, Bienvenido a MEDPET, Tu tienda de mascotas en línea. ¿En qué puedo ayudarte hoy?`;
+  async sendWelcomeMessage(to, messageId) {
+    const welcomeMessage = `Hola, Bienvenido a MEDPET, Tu tienda de mascotas en línea. ¿En qué puedo ayudarte hoy?`;
     await whatsappService.sendMessage(to, welcomeMessage, messageId);
   }
 }
