@@ -16,7 +16,7 @@ class MessageHandler {
         await whatsappService.sendMessage(message.from, response, message.id);
       }
       await whatsappService.markAsRead(message.id);
-      
+
     } else if(message?.type === 'interactive') {
       const option = message.interactive?.button_reply?.id.toLowerCase().trim();
       await this.handleMenuOption(message.from, option);
@@ -44,7 +44,6 @@ class MessageHandler {
       { type: 'reply', reply: { id: 'option_1', title: 'Ver productos' } },
       { type: 'reply', reply: { id: 'option_2', title: 'Contactar soporte' } },
       { type: 'reply', reply: { id: 'option_3', title: 'Horarios de atención' } },
-      { type: 'reply', reply: { id: 'option_4', title: 'Ver Ubicacion' } },
     ];
     await whatsappService.sendInteractiveButtons(to, menuMessage, buttons);
   }
@@ -60,9 +59,6 @@ class MessageHandler {
         break;
       case 'option_3':
         response = 'Nuestros horarios de atención son...';
-        break;
-      case 'option_4':
-        response = 'Nuestra ubicación es...';
         break;
       default:
         response = 'Lo siento, no entendí esa opción. Por favor, elige una opción válida.';
