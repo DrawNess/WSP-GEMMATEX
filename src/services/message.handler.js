@@ -66,7 +66,7 @@ class MessageHandler {
       default:
         response = 'Lo siento, no entendí esa opción. Por favor, elige una opción válida.';
     }
-    await whatsappService.sendMessage(message.from, response);
+    await whatsappService.sendMessage(to, response);
   }
 }
 
