@@ -5,7 +5,7 @@ import openAiService from './openAiService.js'; */
 class MessageHandler {
 
   async handleIncomingMessage(message, senderInfo) {
-    if (message?.type !== 'text'){
+    if (message?.type === 'text'){
       const incomingMessage = message.text.body.toLowerCase().trim();
   
       if (this.isGreeting(incomingMessage)) {
