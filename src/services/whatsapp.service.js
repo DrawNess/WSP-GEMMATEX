@@ -41,7 +41,7 @@ class WhatsAppService {
     }
   }
 
-  async sendInteractiveButtons(to, body, buttons) {
+  async sendInteractiveButtons(to, bodyText, buttons) {
     try {
         await axios({
             method: 'POST',
@@ -55,7 +55,7 @@ class WhatsAppService {
                 type: 'interactive',
                 interactive: {
                     type: 'button',
-                    body: { text: body },
+                    body: { text: bodyText },
                     action: {
                         buttons: buttons
                     }

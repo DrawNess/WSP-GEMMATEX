@@ -16,6 +16,7 @@ class MessageHandler {
         await whatsappService.sendMessage(message.from, response, message.id);
       }
       await whatsappService.markAsRead(message.id);
+      
     } else if(message?.type === 'interactive') {
       const option = message.interactive?.button_reply?.id.toLowerCase().trim();
       await this.handleMenuOption(message.from, option);
