@@ -20,6 +20,7 @@ class MessageHandler {
     } else if(message?.type === 'interactive') {
       const option = message.interactive?.button_reply?.id.toLowerCase().trim();
       await this.handleMenuOption(message.from, option);
+      await whatsappService.markAsRead(message.id);
     }
   }
 
