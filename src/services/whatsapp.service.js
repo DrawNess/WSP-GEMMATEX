@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '../config/env.js';
-import { text } from 'express';
 
 class WhatsAppService {
   async sendMessage(to, body, messageId) {
@@ -56,7 +55,7 @@ class WhatsAppService {
                 type: 'interactive',
                 interactive: {
                     type: 'button',
-                    body: { text: BodyText },
+                    body: { text: body },
                     action: {
                         buttons: buttons
                     }
