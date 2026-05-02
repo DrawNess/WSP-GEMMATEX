@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config/env.js';
+import { text } from 'express';
 
 class WhatsAppService {
   async sendMessage(to, body, messageId) {
@@ -40,6 +41,31 @@ class WhatsAppService {
         console.error('Error marking message as read:', error.response?.data || error.message);
     }
   }
+
+  async sendInteractiveButtons(to, body, buttons) {
+    try {
+        await axios({
+            method: 'POST',
+            url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
+            headers: {
+                'Authorization': `Bearer ${config.API_TOKEN}`,
+            },
+            data: {
+                messaging_product: 'whatsapp',
+                to,
+                type: 'interactive',
+                interactive: {
+                    type: 'button',
+                    body: { text: BodyText },
+                    action: {
+                        buttons: buttons
+                    }
+                }
+            }
+        })
+    } catch (error) {
+            console.error('Error sending interactive buttons:', error.response?.data || error.message); 
+    }
 }
 
 export default new WhatsAppService();
