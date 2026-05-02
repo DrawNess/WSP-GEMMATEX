@@ -64,8 +64,9 @@ class WhatsAppService {
             }
         })
     } catch (error) {
-            console.error('Error sending interactive buttons:', error.response?.data || error.message); 
+        console.error('Error sending interactive buttons:', error.response?.data || error.message); 
     }
+  }
 }
 
 export default new WhatsAppService();
