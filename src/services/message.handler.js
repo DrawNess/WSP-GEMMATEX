@@ -11,7 +11,11 @@ class MessageHandler {
       if (this.isGreeting(incomingMessage)) {
         await this.sendWelcomeMessage(message.from, message.id, senderInfo);
         await this.sendWelcomeMenu(message.from);
-      } else {
+      }  
+      if (incomingMessage === 'media'){
+        await this.sendMedia(message.from);
+      }
+      else{
         const response = `Echo: ${message.text.body}`;
         await whatsappService.sendMessage(message.from, response, message.id);
       }
@@ -65,6 +69,13 @@ class MessageHandler {
         response = 'Lo siento, no entendí esa opción. Por favor, elige una opción válida.';
     }
     await whatsappService.sendMessage(to, response);
+  }
+
+  async sendMedia(to){
+    const mediaUrl = 'https://img.gemmatex.com/uploads/PROMOS/69971c5cdf68a1.33673212_Versus_20_febrero_-_Pagina_web.jpg.jpeg';
+    const caption = 'PROMO DE EL DIA DE HOY';
+    const type = 'image'; // o 'video', 'document', 'audio'
+    await whatsappService.sendMediaMessage(to, type, mediaUrl, caption);
   }
 }
 
