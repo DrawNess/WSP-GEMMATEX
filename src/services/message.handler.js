@@ -5,18 +5,18 @@ import openAiService from './openAiService.js'; */
 class MessageHandler {
 
   async handleIncomingMessage(message, senderInfo) {
-    if (message?.type !== 'text') return;
-    const incomingMessage = message.text.body.toLowerCase().trim();
-
-    if (this.isGreeting(incomingMessage)) {
-      await this.sendWelcomeMessage(message.from, message.id, senderInfo);
-      await this.sendWelcomeMenu(message.from);
-    } else {
-      const response = `Echo: ${message.text.body}`;
-      await whatsappService.sendMessage(message.from, response, message.id);
-    }
-    await whatsappService.markAsRead(message.id);
-    if(message?.type === 'interactive') {
+    if (message?.type !== 'text'){
+      const incomingMessage = message.text.body.toLowerCase().trim();
+  
+      if (this.isGreeting(incomingMessage)) {
+        await this.sendWelcomeMessage(message.from, message.id, senderInfo);
+        await this.sendWelcomeMenu(message.from);
+      } else {
+        const response = `Echo: ${message.text.body}`;
+        await whatsappService.sendMessage(message.from, response, message.id);
+      }
+      await whatsappService.markAsRead(message.id);
+    } else if(message?.type === 'interactive') {
       const option = message.interactive?.button_reply?.id.toLowerCase().trim();
       await this.handleMenuOption(message.from, option);
     }

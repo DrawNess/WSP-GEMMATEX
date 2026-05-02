@@ -20,7 +20,7 @@ class WhatsAppService {
     } catch (error) {
         console.error('Error sending message to WhatsApp:', error.response?.data || error.message);
     }
-  }
+}
 
   async markAsRead(messageId) {
     try {
@@ -42,32 +42,28 @@ class WhatsAppService {
   }
 
   async sendInteractiveButtons(to, body, buttons) {
-    const payload = {
-        messaging_product: 'whatsapp',
-        recipient_type: 'individual',
-        to,
-        type: 'interactive',
-        interactive: {
-            type: 'button',
-            body: { text: body },
-            action: {
-                buttons: buttons
-            }
-        }
-    };
-    console.log('sendInteractiveButtons payload:', JSON.stringify(payload, null, 2));
     try {
         await axios({
             method: 'POST',
             url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
             headers: {
                 'Authorization': `Bearer ${config.API_TOKEN}`,
-                'Content-Type': 'application/json',
             },
-            data: payload,
+            data: {
+                messaging_product: 'whatsapp',
+                to,
+                type: 'interactive',
+                interactive: {
+                    type: 'button',
+                    body: { text: body },
+                    action: {
+                        buttons: buttons
+                    }
+                }
+            }
         })
     } catch (error) {
-        console.error('Error sending interactive buttons:', error.response?.data || error.message);
+        console.error('Error sending interactive buttons:', error.response?.data || error.message); 
     }
   }
 }
