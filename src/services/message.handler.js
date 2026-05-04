@@ -4,30 +4,20 @@ import gemmatexApi from './gemmatex.api.js';
 
 const SUPPORT_TEXT =
   `*Soporte Tecnico GEMMATEX*\n\n` +
-  `Tel: +591 62537378\n` +
-  `Web: soporte.gemmatex.com.bo\n\n` +
-  `Para abrir un ticket ingresa a nuestra plataforma web.\n\n` +
-  `*Sucursales:*\n` +
-  `- La Paz: +591 71926087\n` +
-  `- Cochabamba: +591 78859336\n` +
-  `- Santa Cruz: +591 78346372\n` +
-  `- El Alto Satelite: +591 69750231\n` +
-  `- El Alto Ceibo: +591 67017253\n\n` +
-  `www.gemmatex.com.bo`;
+  `*Tel:* +591 62537378\n` +
+  `*Web:* soporte.gemmatex.com.bo\n\n` +
+  `Para abrir un ticket formal, ingresa a la plataforma web.\n\n` ;
 
 const HOURS_TEXT =
   `*Horario de atencion:*\n` +
-  `- Lun-Vie: 8:40-13:00 y 14:00-18:30\n` +
-  `- Sabados: 8:40-13:00\n\n` +
-  `Para registrar tu ticket de atencion ingresa a:\n` +
-  `soporte.gemmatex.com.bo\n\n` +
-  `Para consultas urgentes, contacta nuestras sucursales:\n\n` +
+  `- *Lun-Vie:* 8:40-13:00 y 14:00-18:30\n` +
+  `- *Sabados:* 8:40-13:00\n\n` +
   `*Sucursales:*\n` +
-  `- La Paz: +591 71926087\n` +
-  `- Cochabamba: +591 78859336\n` +
-  `- Santa Cruz: +591 78346372\n` +
-  `- El Alto Satelite: +591 69750231\n` +
-  `- El Alto Ceibo: +591 67017253`;
+  `- *La Paz:* +591 71926087\n` +
+  `- *Cochabamba:* +591 78859336\n` +
+  `- *Santa Cruz:* +591 78346372\n` +
+  `- *El Alto Satelite:* +591 69750231\n` +
+  `- *El Alto Ceibo:* +591 67017253`;
 
 class MessageHandler {
 
