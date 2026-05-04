@@ -167,7 +167,7 @@ class MessageHandler {
     const categories = await gemmatexApi.getCategories();
     const rows = categories.map(c => ({
       id: `cat_${c.id}`,
-      title: c.name,
+      title: c.name.slice(0, 24),
       description: c.description?.slice(0, 72) || '',
     }));
 
@@ -191,7 +191,7 @@ class MessageHandler {
 
     const rows = subcats.map(s => ({
       id: `sub_${s.id}`,
-      title: s.name,
+      title: s.name.slice(0, 24),
       description: s.description?.slice(0, 72) || '',
     }));
 
@@ -200,7 +200,7 @@ class MessageHandler {
       to,
       `📦 *${cat?.name}* — Elige una subcategoría:`,
       'Ver subcategorías',
-      [{ title: cat?.name || 'Subcategorías', rows }]
+      [{ title: (cat?.name || 'Subcategorías').slice(0, 24), rows }]
     );
   }
 
