@@ -67,21 +67,48 @@ class WhatsAppService {
     }
   }
 
+  async sendListMessage(to, bodyText, buttonLabel, sections) {
+    try {
+      await axios({
+        method: 'POST',
+        url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
+        headers: {
+          'Authorization': `Bearer ${config.API_TOKEN}`,
+        },
+        data: {
+          messaging_product: 'whatsapp',
+          to,
+          type: 'interactive',
+          interactive: {
+            type: 'list',
+            body: { text: bodyText },
+            action: {
+              button: buttonLabel,
+              sections,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Error sending list message:', error.response?.data || error.message);
+    }
+  }
+
   async sendMediaMessage(to, type, mediaUrl, caption) {
     try {
-        const mediaObject = { link: mediaUrl };
+        const mediaPayload = {};
         switch (type) {
             case 'image':
-                mediaObject.image = { link: mediaUrl, caption: caption};
+                mediaPayload.image = { link: mediaUrl, caption: caption || '' };
                 break;
             case 'audio':
-                mediaObject.audio = { link: mediaUrl };
+                mediaPayload.audio = { link: mediaUrl };
                 break;
             case 'video':
-                mediaObject.video = { link: mediaUrl, caption: caption };
+                mediaPayload.video = { link: mediaUrl, caption: caption || '' };
                 break;
             case 'document':
-                mediaObject.document = { link: mediaUrl, filename: 'catalogogemmatex.pdf' };
+                mediaPayload.document = { link: mediaUrl, filename: 'catalogo-gemmatex.pdf' };
                 break;
             default:
                 throw new Error('Unsupported media type');
@@ -95,10 +122,10 @@ class WhatsAppService {
             data: {
                 messaging_product: 'whatsapp',
                 to,
-                type: type,
-                ...mediaObject
+                type,
+                ...mediaPayload
             }
-        })
+        });
     } catch (error) {
         console.error('Error sending media message:', error.response?.data || error.message);
     }
