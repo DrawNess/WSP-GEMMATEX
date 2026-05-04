@@ -3,31 +3,31 @@ import sessionStore from './session.store.js';
 import gemmatexApi from './gemmatex.api.js';
 
 const SUPPORT_TEXT =
-  `*Soporte Técnico GEMMATEX* 🔧\n\n` +
-  `📞 +591 62537378\n` +
-  `🖥 soporte.gemmatex.com.bo\n\n` +
+  `*Soporte Tecnico GEMMATEX*\n\n` +
+  `Tel: +591 62537378\n` +
+  `Web: soporte.gemmatex.com.bo\n\n` +
   `Para abrir un ticket ingresa a nuestra plataforma web.\n\n` +
-  `📍 *Sucursales:*\n` +
-  `▸ La Paz: +591 71926087\n` +
-  `▸ Cochabamba: +591 78859336\n` +
-  `▸ Santa Cruz: +591 78346372\n` +
-  `▸ El Alto Satélite: +591 69750231\n` +
-  `▸ El Alto Ceibo: +591 67017253\n\n` +
+  `*Sucursales:*\n` +
+  `- La Paz: +591 71926087\n` +
+  `- Cochabamba: +591 78859336\n` +
+  `- Santa Cruz: +591 78346372\n` +
+  `- El Alto Satelite: +591 69750231\n` +
+  `- El Alto Ceibo: +591 67017253\n\n` +
   `www.gemmatex.com.bo`;
 
 const HOURS_TEXT =
-  `🕘 *Horario de atención:*\n` +
-  `▸ Lun–Vie: 8:40–13:00 y 14:00–18:30\n` +
-  `▸ Sábados: 8:40–13:00\n\n` +
-  `Para registrar tu ticket de atención ingresa a:\n` +
-  `🖥 soporte.gemmatex.com.bo\n\n` +
+  `*Horario de atencion:*\n` +
+  `- Lun-Vie: 8:40-13:00 y 14:00-18:30\n` +
+  `- Sabados: 8:40-13:00\n\n` +
+  `Para registrar tu ticket de atencion ingresa a:\n` +
+  `soporte.gemmatex.com.bo\n\n` +
   `Para consultas urgentes, contacta nuestras sucursales:\n\n` +
-  `📍 *Sucursales:*\n` +
-  `▸ La Paz: +591 71926087\n` +
-  `▸ Cochabamba: +591 78859336\n` +
-  `▸ Santa Cruz: +591 78346372\n` +
-  `▸ El Alto Satélite: +591 69750231\n` +
-  `▸ El Alto Ceibo: +591 67017253`;
+  `*Sucursales:*\n` +
+  `- La Paz: +591 71926087\n` +
+  `- Cochabamba: +591 78859336\n` +
+  `- Santa Cruz: +591 78346372\n` +
+  `- El Alto Satelite: +591 69750231\n` +
+  `- El Alto Ceibo: +591 67017253`;
 
 class MessageHandler {
 
@@ -41,8 +41,7 @@ class MessageHandler {
         await this.sendWelcomeMessage(from, messageId, senderInfo);
         return;
       }
-      // Cualquier texto fuera de saludo → redirigir al menú
-      await whatsappService.sendMessage(from, 'Por favor, elige una opción del menú 👇');
+      await whatsappService.sendMessage(from, 'Por favor, elige una opcion del menu.');
       await this.sendMainMenu(from);
       return;
     }
@@ -77,7 +76,7 @@ class MessageHandler {
     const name = this.getSenderName(senderInfo);
     await whatsappService.sendMessage(
       to,
-      `👋 Hola *${name}*, bienvenido/a a *GEMMATEX*.\n¿En qué te puedo ayudar hoy?`,
+      `Hola *${name}*, bienvenido/a a *GEMMATEX*.\n¿En que te puedo ayudar hoy?`,
       messageId
     );
     await this.sendMainMenu(to);
@@ -86,14 +85,14 @@ class MessageHandler {
 
   async sendMainMenu(to) {
     const buttons = [
-      { type: 'reply', reply: { id: 'menu_products', title: '🛍 Ver Productos' } },
-      { type: 'reply', reply: { id: 'menu_support', title: '🔧 Soporte Técnico' } },
-      { type: 'reply', reply: { id: 'menu_hours', title: '🕘 Horarios' } },
+      { type: 'reply', reply: { id: 'menu_products', title: 'Ver Productos' } },
+      { type: 'reply', reply: { id: 'menu_support', title: 'Soporte Tecnico' } },
+      { type: 'reply', reply: { id: 'menu_hours', title: 'Horarios' } },
     ];
-    await whatsappService.sendInteractiveButtons(to, 'Selecciona una opción:', buttons);
+    await whatsappService.sendInteractiveButtons(to, 'Selecciona una opcion:', buttons);
   }
 
-  // ─── Button replies (menú principal + acciones de producto) ───────────────
+  // ─── Button replies (menu principal + acciones de producto) ───────────────
 
   async handleButtonReply(to, optionId) {
     switch (optionId) {
@@ -137,7 +136,7 @@ class MessageHandler {
     }
   }
 
-  // ─── List replies (categorías, subcategorías, productos) ─────────────────
+  // ─── List replies (categorias, subcategorias, productos) ─────────────────
 
   async handleListReply(to, optionId) {
     if (optionId.startsWith('cat_')) {
@@ -161,7 +160,7 @@ class MessageHandler {
     }
   }
 
-  // ─── Categorías ──────────────────────────────────────────────────────────
+  // ─── Categorias ──────────────────────────────────────────────────────────
 
   async sendCategoriesList(to) {
     const categories = await gemmatexApi.getCategories();
@@ -174,13 +173,13 @@ class MessageHandler {
     sessionStore.updateSession(to, { state: 'categories' });
     await whatsappService.sendListMessage(
       to,
-      '🗂 Elige una categoría para ver los productos:',
-      'Ver categorías',
-      [{ title: 'Categorías', rows }]
+      'Elige una categoria para ver los productos:',
+      'Ver categorias',
+      [{ title: 'Categorias', rows }]
     );
   }
 
-  // ─── Subcategorías ───────────────────────────────────────────────────────
+  // ─── Subcategorias ───────────────────────────────────────────────────────
 
   async sendSubcategoriesList(to, categoryId) {
     const [categories, subcats] = await Promise.all([
@@ -198,9 +197,9 @@ class MessageHandler {
     sessionStore.updateSession(to, { state: 'subcategories', categoryId, categoryName: cat?.name });
     await whatsappService.sendListMessage(
       to,
-      `📦 *${cat?.name}* — Elige una subcategoría:`,
-      'Ver subcategorías',
-      [{ title: (cat?.name || 'Subcategorías').slice(0, 24), rows }]
+      `*${cat?.name}* - Elige una subcategoria:`,
+      'Ver subcategorias',
+      [{ title: (cat?.name || 'Subcategorias').slice(0, 24), rows }]
     );
   }
 
@@ -211,7 +210,7 @@ class MessageHandler {
     const { data: products, meta } = result;
 
     if (!products || products.length === 0) {
-      await whatsappService.sendMessage(to, 'No hay productos disponibles en esta categoría.');
+      await whatsappService.sendMessage(to, 'No hay productos disponibles en esta categoria.');
       await this.sendMainMenu(to);
       return;
     }
@@ -230,21 +229,20 @@ class MessageHandler {
       description: p.brand || '',
     }));
 
-    const pageInfo = meta.totalPages > 1 ? ` (pág. ${meta.page}/${meta.totalPages})` : '';
+    const pageInfo = meta.totalPages > 1 ? ` (pag. ${meta.page}/${meta.totalPages})` : '';
     await whatsappService.sendListMessage(
       to,
-      `🛍 *${subcategoryName}*${pageInfo}\nElige un producto para ver detalles:`,
+      `*${subcategoryName}*${pageInfo}\nElige un producto para ver detalles:`,
       'Ver productos',
       [{ title: subcategoryName.slice(0, 24), rows }]
     );
 
-    // Botones de paginación + volver
     const navButtons = [];
-    if (meta.hasPrevPage) navButtons.push({ type: 'reply', reply: { id: 'action_prev_page', title: '⬅ Anterior' } });
-    if (meta.hasNextPage) navButtons.push({ type: 'reply', reply: { id: 'action_next_page', title: 'Siguiente ➡' } });
-    navButtons.push({ type: 'reply', reply: { id: 'action_back_menu', title: '🏠 Menú principal' } });
+    if (meta.hasPrevPage) navButtons.push({ type: 'reply', reply: { id: 'action_prev_page', title: 'Anterior' } });
+    if (meta.hasNextPage) navButtons.push({ type: 'reply', reply: { id: 'action_next_page', title: 'Siguiente' } });
+    navButtons.push({ type: 'reply', reply: { id: 'action_back_menu', title: 'Menu principal' } });
 
-    await whatsappService.sendInteractiveButtons(to, 'Navegación:', navButtons.slice(0, 3));
+    await whatsappService.sendInteractiveButtons(to, 'Navegacion:', navButtons.slice(0, 3));
   }
 
   // ─── Detalle de producto ─────────────────────────────────────────────────
@@ -254,18 +252,18 @@ class MessageHandler {
     const variant = product.variants?.[0];
 
     const price = variant?.price
-      ? `💰 *Precio:* Bs. ${parseFloat(variant.price).toLocaleString('es-BO')}`
+      ? `*Precio:* Bs. ${parseFloat(variant.price).toLocaleString('es-BO')}`
       : '';
     const discount = variant?.discountPrice && parseFloat(variant.discountPrice) > 0
-      ? `🏷 *Precio especial:* Bs. ${parseFloat(variant.discountPrice).toLocaleString('es-BO')}`
+      ? `*Precio especial:* Bs. ${parseFloat(variant.discountPrice).toLocaleString('es-BO')}`
       : '';
-    const stock = variant?.stock != null ? `📦 *Stock:* ${variant.stock} ${variant.unitOfMeasure || 'unidades'}` : '';
-    const sku = variant?.sku ? `🔖 *SKU:* ${variant.sku}` : '';
+    const stock = variant?.stock != null ? `*Stock:* ${variant.stock} ${variant.unitOfMeasure || 'unidades'}` : '';
+    const sku = variant?.sku ? `*SKU:* ${variant.sku}` : '';
     const description = variant?.shortDescription || variant?.description || product.subcategory?.description || '';
 
     const text = [
       `*${product.name}*`,
-      `🏷 ${product.brand}`,
+      product.brand,
       '',
       description,
       '',
@@ -275,7 +273,6 @@ class MessageHandler {
       sku,
     ].filter(Boolean).join('\n');
 
-    // Enviar imagen si existe
     if (variant?.imageUrl || product.imageUrl) {
       await whatsappService.sendMediaMessage(
         to,
@@ -287,13 +284,12 @@ class MessageHandler {
 
     await whatsappService.sendMessage(to, text);
 
-    // Acciones post-detalle
     const buttons = [
-      { type: 'reply', reply: { id: 'action_consult', title: '📞 Consultar' } },
-      { type: 'reply', reply: { id: 'action_back_products', title: '⬅ Más productos' } },
-      { type: 'reply', reply: { id: 'action_back_menu', title: '🏠 Menú principal' } },
+      { type: 'reply', reply: { id: 'action_consult', title: 'Consultar' } },
+      { type: 'reply', reply: { id: 'action_back_products', title: 'Mas productos' } },
+      { type: 'reply', reply: { id: 'action_back_menu', title: 'Menu principal' } },
     ];
-    await whatsappService.sendInteractiveButtons(to, '¿Qué deseas hacer?', buttons);
+    await whatsappService.sendInteractiveButtons(to, 'Que deseas hacer?', buttons);
 
     sessionStore.updateSession(to, { state: 'product_detail' });
   }
