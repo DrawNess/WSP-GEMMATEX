@@ -40,6 +40,7 @@ function createSession(userId) {
     currentProduct: null,
     // busqueda por texto libre
     lastKeyword: null,
+    searchContext: null,  // descripcion de productos encontrados para contexto LLM
     // cotizacion
     quoteStep: null,  // 'name' | 'quantity' | 'city'
     quote: {},

@@ -126,6 +126,18 @@ class MessageHandler {
     return senderInfo?.profile?.name || 'Cliente';
   }
 
+  buildSearchContext(products) {
+    return products.slice(0, 5).map(p => {
+      const v = p.variants?.[0];
+      const parts = [`Producto: ${p.name}`];
+      if (p.brand) parts.push(`Marca: ${p.brand}`);
+      if (v?.shortDescription || v?.description) parts.push(v.shortDescription || v.description);
+      if (v?.price) parts.push(`Precio: Bs. ${parseFloat(v.price).toLocaleString('es-BO')}`);
+      if (v?.stock != null) parts.push(`Stock: ${v.stock}`);
+      return parts.join(' | ');
+    }).join('\n');
+  }
+
   formatPrice(product) {
     const v = product.variants?.[0];
     const price = parseFloat(v?.price || 0);
@@ -173,8 +185,8 @@ class MessageHandler {
       // Sin keyword nueva pero hay una anterior — mismo contexto de producto
       await this.searchAndShow(to, session.lastKeyword, session);
     } else {
-      // Sin contexto de producto — LLM responde general
-      const reply = await llmService.chat(userMessage, '', session.history);
+      // Sin keyword nueva — LLM responde con contexto de productos si existe
+      const reply = await llmService.chat(userMessage, session.searchContext || '', session.history);
       await whatsappService.sendMessage(
         to,
         reply || 'No entendi tu consulta. Contacta a soporte: +591 62537378'
@@ -193,7 +205,8 @@ class MessageHandler {
     const result = await gemmatexApi.searchProducts(keyword);
     const products = result?.data || [];
 
-    sessionStore.updateSession(to, { lastKeyword: keyword });
+    const searchContext = products.length ? this.buildSearchContext(products) : null;
+    sessionStore.updateSession(to, { lastKeyword: keyword, searchContext });
 
     if (!products.length) {
       await whatsappService.sendMessage(
@@ -381,8 +394,19 @@ class MessageHandler {
     ];
     await whatsappService.sendInteractiveButtons(to, 'Que deseas hacer?', buttons);
 
+    const detailContext = [
+      `Producto: ${product.name}`,
+      product.brand ? `Marca: ${product.brand}` : '',
+      description ? `Descripcion: ${description}` : '',
+      rawPrice > 0 ? `Precio: Bs. ${rawPrice.toLocaleString('es-BO')}` : '',
+      rawDiscount > 0 && rawDiscount < rawPrice ? `Precio especial: Bs. ${rawDiscount.toLocaleString('es-BO')}` : '',
+      v?.stock != null ? `Stock: ${v.stock} ${v.unitOfMeasure || 'unidades'}` : '',
+      v?.sku ? `SKU: ${v.sku}` : '',
+    ].filter(Boolean).join(' | ');
+
     sessionStore.updateSession(to, {
       state: 'product_detail',
+      searchContext: detailContext,
       currentProduct: {
         name: product.name,
         brand: product.brand,
