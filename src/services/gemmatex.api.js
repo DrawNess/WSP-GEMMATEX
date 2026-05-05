@@ -56,11 +56,25 @@ async function getProduct(productId) {
   return res.data;
 }
 
+async function searchProducts(query) {
+  const key = `search_${query}`;
+  const cached = productsCache.get(key);
+  if (cached && Date.now() - cached.ts < PRODUCTS_TTL_MS) {
+    return cached.data;
+  }
+  const res = await axios.get(`${BASE_URL}/products/search`, {
+    params: { q: query, page: 1, pageSize: PAGE_SIZE },
+  });
+  productsCache.set(key, { data: res.data, ts: Date.now() });
+  return res.data;
+}
+
 export default {
   getCategories,
   getSubcategories,
   getSubcategoriesByCategory,
   getProductsBySubcategory,
   getProduct,
+  searchProducts,
   PAGE_SIZE,
 };

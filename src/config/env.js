@@ -9,4 +9,7 @@ export default {
   API_VERSION: process.env.API_VERSION,
   PORT: process.env.PORT || 3000,
   BASE_URL: process.env.BASE_URL,
+  OLLAMA_API_KEY: process.env.OLLAMA_API_KEY,
+  OLLAMA_MODEL: process.env.OLLAMA_MODEL || 'gemma3:12b',
+  VENDOR_PHONE: process.env.VENDOR_PHONE,
 };

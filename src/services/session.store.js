@@ -29,13 +29,22 @@ function getSession(userId) {
 function createSession(userId) {
   const session = {
     state: 'idle',
+    // navegacion
     categoryId: null,
     categoryName: null,
     subcategoryId: null,
     subcategoryName: null,
-    products: [],
     page: 1,
     totalPages: 1,
+    // producto actual
+    currentProduct: null,
+    // busqueda por texto libre
+    lastKeyword: null,
+    // cotizacion
+    quoteStep: null,  // 'name' | 'quantity' | 'city'
+    quote: {},
+    // historial LLM (max 10 mensajes)
+    history: [],
     lastActivity: Date.now(),
   };
   sessions.set(userId, session);
