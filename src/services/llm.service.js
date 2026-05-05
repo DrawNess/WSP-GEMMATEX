@@ -12,14 +12,27 @@ Productos que vendemos:
 - Productos AGABE (emulsiones, sensibilizadores, auxiliares para serigrafia)
 - Viniles (PU, PU Neon)
 
+Sucursales donde recoger productos:
+- LA PAZ (Casa Matriz): Av. Illampu esq. Graneros N. 682 | WhatsApp: +591 71926087
+- COCHABAMBA: Av. Aroma entre 16 de Julio y Av. Oquendo | WhatsApp: +591 78859336
+- EL ALTO (Ceibo): Zona 16 de Julio, Calle Rene Dorado N. 200 | WhatsApp: +591 67017253
+- EL ALTO (Ciudad Satelite): Av. Panoramica, frente al canal RTP | WhatsApp: +591 69750231
+- SANTA CRUZ: Calle Isabela Catolica casi Canoto, lado Kaywasi N. 275 | WhatsApp: +591 78346372
+
+Envios: Si, realizamos envios a todo el pais. El cliente debe contactar a la sucursal mas cercana para coordinar el envio y el pago.
+
+Horarios generales:
+- Lun-Vie: 8:40-13:00 y 14:00-18:30 (varia por sucursal)
+- Sabados: 8:40-13:00
+
 Soporte tecnico: +591 62537378 | soporte.gemmatex.com.bo
-Para compras: visitar sucursales en La Paz, Cochabamba, Santa Cruz, El Alto.
 Ver catalogo completo: www.gemmatex.com.bo
 
 Reglas:
 - Responde SIEMPRE en espanol, breve y directo.
-- Para compras o pedidos: deriva a sucursales, NO a soporte tecnico.
-- Para problemas tecnicos: deriva a soporte.gemmatex.com.bo.
+- Para compras, recojo o envios: indica la sucursal correspondiente y su WhatsApp.
+- Para problemas tecnicos con equipos: deriva a soporte.gemmatex.com.bo.
+- Nunca inventes precios ni especificaciones tecnicas.
 - Maximo 2 oraciones.`;
 
 async function post(messages) {
