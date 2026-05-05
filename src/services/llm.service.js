@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../config/env.js';
 
-const XAI_URL = 'https://api.x.ai/v1/chat/completions';
+const OLLAMA_URL = 'https://ollama.com/api/chat';
 
 const SYSTEM_PROMPT = `Eres el asistente virtual de GEMMATEX, empresa boliviana especializada en equipos y materiales para sublimacion, serigrafia y personalizacion textil.
 
@@ -37,17 +37,17 @@ Reglas:
 
 async function post(messages) {
   const res = await axios.post(
-    XAI_URL,
-    { model: config.XAI_MODEL, messages, stream: false },
+    OLLAMA_URL,
+    { model: config.OLLAMA_MODEL, messages, stream: false },
     {
       headers: {
-        'Authorization': `Bearer ${config.XAI_API_KEY}`,
+        'Authorization': `Bearer ${config.OLLAMA_API_KEY}`,
         'Content-Type': 'application/json',
       },
       timeout: 20000,
     }
   );
-  return res.data.choices?.[0]?.message?.content?.trim() || null;
+  return res.data.message?.content?.trim() || null;
 }
 
 // Extraccion basica sin LLM — elimina palabras vacias y retorna lo util
