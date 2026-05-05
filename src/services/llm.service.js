@@ -50,6 +50,26 @@ async function post(messages) {
   return res.data.choices?.[0]?.message?.content?.trim() || null;
 }
 
+// Extraccion basica sin LLM — elimina palabras vacias y retorna lo util
+const STOP_WORDS = new Set([
+  'quisiera', 'quiero', 'preguntar', 'consultar', 'saber', 'busco', 'buscar',
+  'comprar', 'ver', 'conseguir', 'tener', 'tienen', 'tiene', 'hay', 'tienes',
+  'si', 'una', 'un', 'la', 'el', 'las', 'los', 'de', 'para', 'me', 'nos',
+  'puedo', 'podria', 'necesito', 'como', 'que', 'cual', 'cuanto', 'cuantos',
+  'este', 'esta', 'ese', 'esa', 'su', 'mi', 'por', 'con', 'en', 'a', 'y',
+  'o', 'al', 'del', 'lo', 'le', 'les', 'se', 'es', 'son', 'ser', 'precio',
+  'favor', 'porfavor', 'gracias', 'hola', 'buenas', 'buen', 'buenos', 'dias',
+  'tardes', 'noches', 'info', 'informacion',
+]);
+
+function simpleExtract(text) {
+  const words = text.toLowerCase()
+    .replace(/[?!.,¿¡]/g, '')
+    .split(/\s+/)
+    .filter(w => w.length > 1 && !STOP_WORDS.has(w));
+  return words.length > 0 ? words.join(' ') : null;
+}
+
 // Extrae keyword de producto del mensaje del usuario. Retorna null si no hay producto.
 async function extractKeyword(userMessage) {
   try {
@@ -72,7 +92,8 @@ Ejemplos:
     if (!result || result.toLowerCase().includes('ninguno')) return null;
     return result.trim();
   } catch {
-    return null;
+    // LLM no disponible — fallback a extraccion basica
+    return simpleExtract(userMessage);
   }
 }
 
@@ -88,7 +109,7 @@ async function chat(userMessage, context = '', history = []) {
     return await post(messages);
   } catch (error) {
     console.error('LLM error:', error.response?.data || error.message);
-    return null;
+    return 'Para mas informacion visita *www.gemmatex.com.bo* o contacta a una sucursal. Para soporte tecnico: *soporte.gemmatex.com.bo*';
   }
 }
 
